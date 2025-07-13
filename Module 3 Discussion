@@ -1,13 +1,14 @@
 using System;
 
-class Car
+class Person
 {
-    public string Make { get; set; }
-    public string Model { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
 
-    public void Drive()
+    // Override ToString method
+    public override string ToString()
     {
-        Console.WriteLine("The car is driving.");
+        return $"Person: {FirstName} {LastName}";
     }
 }
 
@@ -15,10 +16,17 @@ class Program
 {
     static void Main(string[] args)
     {
-        Car myCar = new Car();
-        myCar.Make = "Toyota";
-        myCar.Model = "Corolla";
-        myCar.Drive();
-        Console.WriteLine($"My car is a {myCar.Make} {myCar.Model}.");
+        // Create and initialize the object in one step
+        Person myPerson = new Person
+        {
+            FirstName = "John",
+            LastName = "Doe"
+        };
+
+        // Use overridden ToString method
+        Console.WriteLine(myPerson.ToString());
+
+        // Use GetType method
+        Console.WriteLine("Type of object: " + myPerson.GetType());
     }
 }
