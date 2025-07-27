@@ -2,156 +2,161 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DictionaryAssignment
+namespace GroupDictionaryApp
 {
     class Program
     {
-        // Declare a dictionary where each key maps to a list of strings (e.g., categories with items)
-        static Dictionary<string, List<string>> myDictionary = new Dictionary<string, List<string>>();
+        // Dictionary where each username maps to a list of passwords (for example, password history)
+        static Dictionary<string, List<string>> userCredentials = new Dictionary<string, List<string>>();
 
         static void Main(string[] args)
         {
-            bool running = true;
-
-            // Main loop with switch statement to process user menu selection
-            while (running)
+            bool isRunning = true;
+// Main programming loop with switch statement to process user menu selection
+            while (isRunning)
             {
-                Console.WriteLine("\nChoose an option:");
-                Console.WriteLine("1. Populate the Dictionary");
-                Console.WriteLine("2. Display Dictionary Contents");
-                Console.WriteLine("3. Remove a Key");
-                Console.WriteLine("4. Add a New Key and Value");
-                Console.WriteLine("5. Add a Value to an Existing Key");
-                Console.WriteLine("6. Sort the Keys");
+                Console.WriteLine("\n======= USER ACCOUNT MENU =======");
+                Console.WriteLine("1. Load Sample User Data");
+                Console.WriteLine("2. Display All Usernames & Passwords");
+                Console.WriteLine("3. Remove a Username");
+                Console.WriteLine("4. Add a New Username and Password");
+                Console.WriteLine("5. Add a Password to Existing User");
+                Console.WriteLine("6. Sort and Display Usernames");
                 Console.WriteLine("7. Exit");
-                Console.Write("Enter your choice: ");
+                Console.Write("Select an option (1-7): ");
 
-                string input = Console.ReadLine();
-
-                // Switch statement handles all dictionary operations
-                switch (input)
+                string choice = Console.ReadLine();
+	// Switch statement handles all dictionary operations
+                switch (choice)
                 {
                     case "1":
-                        PopulateDictionary(); // Add predefined key-value pairs
+                        LoadSampleUsers(); // Add predefined key-value pairs
                         break;
                     case "2":
-                        DisplayDictionary(); // Show all keys and their associated values
+                        DisplayAllUsers(); // Show all keys and their associated values
                         break;
                     case "3":
-                        RemoveKey(); // Remove a key from the dictionary
+                        RemoveUsername(); // Remove a key from the dictionary
                         break;
                     case "4":
-                        AddNewKeyAndValue(); // Add a brand new key-value entry
+                        AddNewUser();// Add a brand new key-value entry
                         break;
                     case "5":
-                        AddValueToExistingKey(); // Append a value to an existing key
+                        AddPasswordToUser(); // Append a value to an existing key
                         break;
                     case "6":
-                        SortKeys(); // Display dictionary with sorted keys
+                        SortAndShowUsernames(); // Display dictionary with sorted keys
                         break;
                     case "7":
-                        running = false; // Exit the program
+                        isRunning = false; // Exit the program
                         Console.WriteLine("Exiting program...");
                         break;
                     default:
-                        Console.WriteLine("Invalid choice, try again."); // Input validation
+                        Console.WriteLine("Invalid input. Please choose a number between 1 and 7."); // Input validation
                         break;
                 }
             }
         }
 
-        // (1a) Populates the dictionary with sample categories and their values
-        static void PopulateDictionary()
+        // 1. Populate the dictionary with sample usernames and passwords aka group names
+        static void LoadSampleUsers()
         {
-            myDictionary.Clear(); // Start with a fresh dictionary
-            myDictionary.Add("Fruit", new List<string> { "Apple", "Banana" });
-            myDictionary.Add("Animal", new List<string> { "Dog", "Cat" });
-            myDictionary.Add("Country", new List<string> { "USA", "Canada" });
-            Console.WriteLine("Dictionary populated.");
+            userCredentials.Clear();
+
+            userCredentials["Shane"] = new List<string> { "Wright" };
+            userCredentials["Jeanpaul"] = new List<string> { "Colon" };
+            userCredentials["Adi"] = new List<string> { "Eliav" };
+	userCredentials["Sherikay"] = new List<string>{"Edwards"};
+            userCredentials["First Name2"] = new List<string> { "Last Name 2" };
+
+            Console.WriteLine("Sample user data loaded.");
         }
 
-        // (1b) Displays the contents of the dictionary using foreach loop enumeration
-        static void DisplayDictionary()
+        // 2. Show all usernames and their passwords
+        static void DisplayAllUsers()
         {
-            if (myDictionary.Count == 0)
+            if (userCredentials.Count == 0)
             {
-                Console.WriteLine("Dictionary is empty.");
+                Console.WriteLine("No user data found.");
                 return;
             }
 
-            // Loop through each key-value pair and print them
-            foreach (var pair in myDictionary)
+            Console.WriteLine("\n--- User Credentials ---");
+            foreach (var pair in userCredentials)
             {
-                Console.WriteLine($"{pair.Key}: {string.Join(", ", pair.Value)}");
+                Console.WriteLine($"Username: {pair.Key} → Password(s): {string.Join(", ", pair.Value)}");
             }
         }
 
-        // (1c) Removes a key and its associated values from the dictionary
-        static void RemoveKey()
+        // 3. Remove a user from the dictionary
+        static void RemoveUsername()
         {
-            Console.Write("Enter the key to remove: ");
-            string key = Console.ReadLine();
+            Console.Write("Enter the username to remove: ");
+            string username = Console.ReadLine();
 
-            if (myDictionary.Remove(key))
-                Console.WriteLine($"Key '{key}' removed.");
-            else
-                Console.WriteLine($"Key '{key}' not found.");
-        }
-
-        // (1d) Adds a new key and initial value to the dictionary
-        static void AddNewKeyAndValue()
-        {
-            Console.Write("Enter new key: ");
-            string key = Console.ReadLine();
-
-            Console.Write("Enter value: ");
-            string value = Console.ReadLine();
-
-            // Only add if the key doesn't already exist
-            if (!myDictionary.ContainsKey(key))
+            if (userCredentials.Remove(username))
             {
-                myDictionary[key] = new List<string> { value };
-                Console.WriteLine($"Key '{key}' with value '{value}' added.");
+                Console.WriteLine($"Username '{username}' removed.");
             }
             else
             {
-                Console.WriteLine($"Key '{key}' already exists.");
+                Console.WriteLine("Username not found.");
             }
         }
 
-        // (1e) Adds an additional value to an existing key's value list
-        static void AddValueToExistingKey()
+        // 4. Add a new username and password
+        static void AddNewUser()
         {
-            Console.Write("Enter existing key: ");
-            string key = Console.ReadLine();
+            Console.Write("Enter a new username: ");
+            string newUsername = Console.ReadLine();
 
-            Console.Write("Enter new value to add: ");
-            string value = Console.ReadLine();
+            if (userCredentials.ContainsKey(newUsername))
+            {
+                Console.WriteLine("This username already exists. Use option 5 to add a new password.");
+                return;
+            }
 
-            // Append to the list of values if key exists
-            if (myDictionary.ContainsKey(key))
-            {
-                myDictionary[key].Add(value);
-                Console.WriteLine($"Value '{value}' added to key '{key}'.");
-            }
-            else
-            {
-                Console.WriteLine($"Key '{key}' does not exist.");
-            }
+            Console.Write("Enter a password: ");
+            string newPassword = Console.ReadLine();
+
+            userCredentials[newUsername] = new List<string> { newPassword };
+            Console.WriteLine($"User '{newUsername}' added with initial password.");
         }
 
-        // (1f) Sorts and displays the dictionary based on keys in alphabetical order
-        static void SortKeys()
+        // 5. Add a password to an existing user
+        static void AddPasswordToUser()
         {
-            // Use LINQ to order the dictionary by keys
-            var sorted = myDictionary.OrderBy(pair => pair.Key)
-                                     .ToDictionary(pair => pair.Key, pair => pair.Value);
+            Console.Write("Enter existing username: ");
+            string existingUsername = Console.ReadLine();
 
-            Console.WriteLine("Sorted dictionary keys:");
-            foreach (var pair in sorted)
+            if (!userCredentials.ContainsKey(existingUsername))
             {
-                Console.WriteLine($"{pair.Key}: {string.Join(", ", pair.Value)}");
+                Console.WriteLine("Username not found.");
+                return;
+            }
+
+            Console.Write("Enter new password to add: ");
+            string newPassword = Console.ReadLine();
+
+            userCredentials[existingUsername].Add(newPassword);
+            Console.WriteLine($"Password added to user '{existingUsername}'.");
+        }
+
+        // 6. Sort and display all usernames
+        static void SortAndShowUsernames()
+        {
+            if (userCredentials.Count == 0)
+            {
+                Console.WriteLine("No usernames to sort.");
+                return;
+            }
+
+            Console.WriteLine("\n--- Sorted Usernames ---");
+            foreach (var username in userCredentials.Keys.OrderBy(k => k))
+            {
+                Console.WriteLine(username);
             }
         }
     }
 }
+
